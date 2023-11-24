@@ -53,6 +53,8 @@ const Navbar = ({ session }: NavbarProps) => {
             {/* <UserAccountNav /> */}
           </>
         )}
+        
+        {/* Dark and light mode toggle button */}
         <ModeToggle />
       </div>
     </div>

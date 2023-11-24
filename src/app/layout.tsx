@@ -1,13 +1,17 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import '../styles/globals.css'
-import { ThemeProvider } from '@/components/providers/theme-provider'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "../styles/globals.css";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import Providers from "@/components/providers/SessionProvider";
+import { Toaster } from "sonner";
+import { EdgeStoreProvider } from "@/lib/edgestore";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Jotion',
-  description: 'The connected workspace where better, faster work happens.',
+  title: "Jotion",
+  description: "The connected workspace where better, faster work happens.",
   icons: {
     icon: [
       {
@@ -19,28 +23,34 @@ export const metadata: Metadata = {
         media: "(prefers-color-scheme: dark)",
         url: "/logo-dark.svg",
         href: "/logo-dark.svg",
-      }
-    ]
-  }
-}
+      },
+    ],
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>
+          <EdgeStoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster position="bottom-center" />
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </EdgeStoreProvider>
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
