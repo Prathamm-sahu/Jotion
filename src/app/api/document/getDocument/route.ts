@@ -18,7 +18,7 @@ export async function GET(req: Request) {
         createdAt: "desc"
       }
     })
-
+    console.log(typeof documents)
     if(documents === null) {
       return new Response("No record Found")
     }

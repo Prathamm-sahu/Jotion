@@ -116,6 +116,7 @@ const Item: FC<ItemProps> = ({
     event.stopPropagation();
     if (!id) return;
     onCreate();
+    console.log("Item Expanded",expanded)
     if (!expanded) {
       onExpand && onExpand();
     }

@@ -10,11 +10,19 @@ import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, C
 import { useSession } from 'next-auth/react'
 import { File } from 'lucide-react'
 
-interface SearchCommandProps {
-  
+type document = {
+  id: string
+  title: string
+  userId: string
+  parentDocumentId: string | null
+  isArchived: boolean 
+  content: string | null
+  coverImage: string | null 
+  icon: string | null 
+  isPublished: boolean 
 }
 
-const SearchCommand: FC<SearchCommandProps> = ({}) => {
+const SearchCommand = () => {
   const router = useRouter()
   const { data: session } = useSession()
 
@@ -28,7 +36,7 @@ const SearchCommand: FC<SearchCommandProps> = ({}) => {
     queryKey: ["document", "getDocument", "searchDocument"],
     queryFn: async () => {
       const { data } = await axios.get("/api/document/getDocument/search")
-      return data
+      return data as document[]
     }
   })
 

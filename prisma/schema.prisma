@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -68,7 +68,7 @@ model Document {
   parentDocumentId String?
   parentDocument   ParentDocument? @relation(fields: [parentDocumentId], references: [id])
   isArchived       Boolean
-  content          String?         @db.LongText
+  content          String?         @db.VarChar(4000)
   coverImage       String?
   icon             String?
   isPublished      Boolean

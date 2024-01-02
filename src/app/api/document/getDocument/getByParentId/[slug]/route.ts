@@ -21,7 +21,6 @@ export async function GET(req: Request, { params }: { params: { slug: string }})
         createdAt: "desc"
       }
     })
-
     if(documents === null) {
       return new Response("No")
     }
