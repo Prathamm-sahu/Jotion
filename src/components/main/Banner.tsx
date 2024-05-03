@@ -34,7 +34,7 @@ const Banner: FC<BannerProps> = ({ documentId }) => {
       router.refresh()
     },
   });
-
+ 
   const { mutate: onRemove } = useMutation({
     mutationFn: async () => {
       await axios.delete(`/api/document/delete/${documentId}`);

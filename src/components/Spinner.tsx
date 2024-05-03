@@ -29,4 +29,4 @@ export const Spinner = ({
   return (
     <Loader className={cn(spinnerVariants({ size }))} />
   );
-};
+}; 

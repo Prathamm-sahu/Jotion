@@ -61,7 +61,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
       queryClient.invalidateQueries(["getDocument", "getById", initialData.id])
     }
   })
-
+ 
   const disableInput = () => setIsEditing(false);
 
   const enableInput = () => {

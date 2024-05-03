@@ -42,4 +42,3 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({ children, onConfirm }) => 
     </AlertDialog>
   )
 }
-

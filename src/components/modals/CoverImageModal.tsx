@@ -64,8 +64,6 @@ export const CoverImageModal = () => {
         })
       }
 
-      
-
       updateDocument(res.url)
 
       onClose()

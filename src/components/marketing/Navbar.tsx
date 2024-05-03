@@ -60,5 +60,5 @@ const Navbar = ({ session }: NavbarProps) => {
     </div>
   );
 };
-
+ 
 export default Navbar;

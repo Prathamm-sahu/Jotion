@@ -50,5 +50,5 @@ const Heroes: FC<HeroesProps> = ({}) => {
     </div>
   )
 }
-
+ 
 export default Heroes

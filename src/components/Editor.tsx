@@ -12,7 +12,7 @@ interface EditorProps {
   initialContent?: string | null
   editable?: boolean
 }
-
+ 
 const Editor: FC<EditorProps> = ({ updateContent, initialContent, editable }) => {
   const { resolvedTheme } = useTheme()
   const { edgestore } = useEdgeStore()

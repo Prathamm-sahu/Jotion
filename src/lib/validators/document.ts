@@ -13,6 +13,6 @@ export const UpdateDocumentValidator = z.object({
   icon: z.string().optional(),
   isPublished: z.boolean().optional()
 })
-
+ 
 export type CreateDocumentPayload = z.infer<typeof DocumentValidator>
 export type UpdateDocumentPayload = z.infer<typeof UpdateDocumentValidator>

@@ -8,4 +8,4 @@ export type document = {
   coverImage: string | null 
   icon: string | null 
   isPublished: boolean 
-}
+} 
