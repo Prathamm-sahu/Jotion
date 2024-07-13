@@ -105,7 +105,7 @@ const TrashBox: FC<TrashBoxProps> = ({}) => {
         </p>
 
         {/* Displaying Archived document */}
-        {filteredArchivedDocuments?.map((doc) => (
+        {filteredArchivedDocuments!== undefined && filteredArchivedDocuments?.map((doc) => (
           <div key={doc.id} className="flex items-center">
             <div
               role="button"

@@ -59,7 +59,7 @@ const Page = () => {
         className='hidden dark:block'
       />
 
-      <h2 className='text-lg font-med'>
+      <h2 className='text-lg font-medium'>
         Welcome to {username && username[0]}&apos;s Jotion
       </h2>
 

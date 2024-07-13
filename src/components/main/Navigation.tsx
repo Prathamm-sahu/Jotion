@@ -47,7 +47,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
   const search = useSearch();
   const pathname = usePathname();
   const params = useParams();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile: boolean = useMediaQuery("(max-width: 768px)");
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -186,7 +186,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
             isSearch
             onClick={() => search.onOpen()}
           />
-          <Item label="Settings" icon={Settings} />
+          {/* <Item label="Settings" icon={Settings} /> */}
           <Item label="New Page" icon={PlusCircle} onClick={() => onCreate()} />
         </div>
 

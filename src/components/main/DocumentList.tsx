@@ -89,7 +89,7 @@ const DocumentList: FC<DocumentListProps> = ({
           No pages inside
         </p>
       )}
-      {documents.length > 0 &&
+      {documents !== undefined &&
         documents.map((document) => (
           <div key={document.id}>
             <Item

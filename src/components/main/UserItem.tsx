@@ -25,9 +25,9 @@ const UserItem = ({}) => {
   const { data: session } = useSession()
 
   // if session is not there then redirect them to marketing page
-  // if(!session) {
-  //   return redirect('/')
-  // }
+  if(!session) {
+    return redirect('/')
+  }
 
   return (
     <DropdownMenu>

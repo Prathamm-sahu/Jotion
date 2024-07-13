@@ -20,7 +20,7 @@ export async function GET(req: Request) {
     })
     console.log(typeof documents)
     if(documents === null) {
-      return new Response("No record Found")
+      return new Response("No record Found", { status: 404 })
     }
 
     return new Response(JSON.stringify(documents))
