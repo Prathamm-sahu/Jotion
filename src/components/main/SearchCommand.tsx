@@ -15,7 +15,7 @@ type document = {
   title: string
   userId: string
   parentDocumentId: string | null
-  isArchived: boolean 
+   isArchived: boolean 
   content: string | null
   coverImage: string | null 
   icon: string | null 
@@ -75,7 +75,7 @@ const SearchCommand = () => {
         {/* If no record found */}
         <CommandEmpty>No result found.</CommandEmpty>
         <CommandGroup>
-          {searchDocuments?.map((doc: any) => (
+          {searchDocuments !== undefined && searchDocuments?.map((doc: any) => (
             // File Icon
             <CommandItem
               key={doc.id}
