@@ -81,6 +81,21 @@ eg:-
     every time when component renders then useQuery will fetch new data.
     used in file Navbar.tsx
 
+16. To safely allow optimizing images, define a list of supported URL patterns in next.config.js. Be as
+    specific as possible to prevent malicious usage. For example, the following configuration will only allow images from a specific AWS S3 bucket:
+    module.exports = {
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 's3.amazonaws.com',
+            port: '',
+            pathname: '/my-bucket/**',
+          },
+        ],
+      },
+    }
+
 
 TODO:-
 1. add userAccountNav components
