@@ -1,6 +1,6 @@
 "use client";
 
-import { document } from "@/types/document";
+import type { document } from "@/types/document";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -8,11 +8,11 @@ import { FC, useState } from "react";
 import Item, { ItemSkeleton } from "./Item";
 import { cn } from "@/lib/utils";
 import { FileIcon } from "lucide-react";
+import { Session } from "next-auth";
 
 interface DocumentListProps {
-  parentDocumentId?: string | null;
+  parentDocumentId?: string;
   level?: number;
-  data?: document[];
 }
 
 const DocumentList: FC<DocumentListProps> = ({
@@ -27,12 +27,12 @@ const DocumentList: FC<DocumentListProps> = ({
   const onExpand = (documentId: string) => {
     setExpanded((prev) => ({
       ...prev,
-      [documentId]: !prev[documentId],
+      [documentId]: !prev[documentId], // Using square brackets to put the value of documentId
     }));
   };
 
   const { data: documents, isLoading } = useQuery({
-    queryKey: ["document"],
+    queryKey: ["document", parentDocumentId],
     queryFn: async () => {
       let doc;
       if (!!parentDocumentId && parentDocumentId !== null) {
@@ -69,9 +69,6 @@ const DocumentList: FC<DocumentListProps> = ({
       </>
     );
   }
-  console.log("Document", documents.length);
-  console.log("ParentDocumentIdType", parentDocumentId);
-  console.log("Expanded", expanded)
 
   return (
     <>
@@ -90,29 +87,33 @@ const DocumentList: FC<DocumentListProps> = ({
         </p>
       )}
       {documents !== undefined &&
-        documents.map((document) => (
-          <div key={document.id}>
+        documents.map((doc: document) => (
+          <div key={doc.id}>
             <Item
-              id={document.id}
+              id={doc.id}
               onClick={() => {
-                onRedirect(document.id);
+                onRedirect(doc.id);
                 queryClient.invalidateQueries([
                   "getDocument",
                   "getById",
-                  document.id,
+                  doc.id,
                 ]);
               }}
-              label={document.title}
+              label={doc.title}
               icon={FileIcon}
-              documentIcon={document.icon || ""}
-              active={params.documentId === document.id}
+              documentIcon={doc.icon || ""}
+              parentDocumentId={parentDocumentId}
+              active={params.documentId === doc.id}
               level={level}
-              onExpand={() => onExpand(document.id)}
-              expanded={expanded[document.id]}
+              onExpand={() => onExpand(doc.id)}
+              expanded={expanded[doc.id]}
             />
-            {/* {!!expanded[document.id] && (
-              <DocumentList parentDocumentId={document.id} level={level + 1} />
-            )} */}
+            {!!expanded[doc.id] && (
+              <DocumentList
+                parentDocumentId={doc.id}
+                level={level + 1}
+              />
+            )}
           </div>
         ))}
     </>
@@ -120,3 +121,20 @@ const DocumentList: FC<DocumentListProps> = ({
 };
 
 export default DocumentList;
+
+
+{
+  /* 
+  This will work if there is further no nested document. There can no nested document in parent or there can also be no nested document in children.
+  Case 1:
+  GrandParent
+    Parent
+      child
+        No pages inside
+
+  Case 2:
+  Parent
+    No pages inside
+
+*/
+}

@@ -17,12 +17,13 @@ import { toast } from "sonner";
 import { Skeleton } from "../ui/skeleton";
 import { useRouter } from "next/navigation";
 import { document } from "@/types/document";
-import { DropdownMenu, DropdownMenuSeparator } from "../ui/DropdownMenu";
 import {
+  DropdownMenu,
+  DropdownMenuSeparator,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+} from "../ui/DropdownMenu";
 import { useSession } from "next-auth/react";
 
 interface ItemProps {
@@ -33,8 +34,8 @@ interface ItemProps {
   onClick?: () => void;
   level?: number;
   icon: LucideIcon;
+  parentDocumentId?: string
   active?: boolean;
-  isSearch?: boolean;
   onExpand?: () => void;
 }
 
@@ -44,8 +45,8 @@ const Item: FC<ItemProps> = ({
   expanded,
   level,
   active,
-  isSearch,
   documentIcon,
+  parentDocumentId,
   onClick,
   onExpand,
   icon: Icon,
@@ -54,8 +55,6 @@ const Item: FC<ItemProps> = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const { data: session } = useSession();
-
-  const [newDoc, setNewDoc] = useState<document>();
 
   const handleExpand = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -79,10 +78,10 @@ const Item: FC<ItemProps> = ({
     },
     onSuccess: (data: string) => {
       toast.success("Note moved to trash!");
-      router.refresh()
-      router.push("/documents")
-      queryClient.invalidateQueries(["document", "archive"])
-      queryClient.invalidateQueries(["document"])
+      router.refresh();
+      router.push("/documents");
+      queryClient.invalidateQueries(["document", "archive"]);
+      queryClient.invalidateQueries(["document", parentDocumentId]);
     },
   });
 
@@ -93,7 +92,7 @@ const Item: FC<ItemProps> = ({
         parentDocumentId: id,
       };
       const { data } = await axios.post("/api/document/create", payload);
-      return data as string;
+      return data
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
@@ -106,8 +105,6 @@ const Item: FC<ItemProps> = ({
     onSuccess: (data: string) => {
       toast.success("New note created!");
       queryClient.invalidateQueries(["document"]);
-      const parseData = JSON.parse(data);
-      setNewDoc(parseData);
     },
   });
 
@@ -116,7 +113,7 @@ const Item: FC<ItemProps> = ({
     event.stopPropagation();
     if (!id) return;
     onCreate();
-    console.log("Item Expanded",expanded)
+    console.log("Item Expanded", expanded);
     if (!expanded) {
       onExpand && onExpand();
     }
@@ -135,7 +132,6 @@ const Item: FC<ItemProps> = ({
     >
       {!!id && (
         <div
-          role="button"
           className="h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1"
           onClick={handleExpand}
         >
@@ -149,12 +145,6 @@ const Item: FC<ItemProps> = ({
       )}
       <span className="truncate">{label}</span>
 
-      {isSearch && (
-        <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">⌘</span>K
-        </kbd>
-      )}
-
       {!!id && (
         <div className="ml-auto flex items-center gap-x-2">
           <DropdownMenu>
@@ -166,7 +156,11 @@ const Item: FC<ItemProps> = ({
                 <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-60 border-black" align="start" side="right">
+            <DropdownMenuContent
+              className="w-60 border-black z-[99999]"
+              align="start"
+              side="right"
+            >
               <DropdownMenuItem onSelect={() => onArchive()}>
                 <Trash className="h-4 w-4 mr-2" />
                 Delete
@@ -201,7 +195,7 @@ export function ItemSkeleton({ level }: { level?: number }) {
       className="flex gap-x-2 py-[3px]"
     >
       <Skeleton className="h-4 w-4" />
-      <Skeleton className="h-4 w-[30%]" />
+      <Skeleton className="h-4 w-[50%]" />
     </div>
   );
 }
