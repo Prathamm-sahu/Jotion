@@ -1,12 +1,11 @@
 "use client"
 
-import Editor from '@/components/Editor'
 import Toolbar from '@/components/Toolbar'
 import { Cover, CoverSkeleton } from '@/components/cover'
 import { Skeleton } from '@/components/ui/skeleton'
 import { UpdateDocumentPayload } from '@/lib/validators/document'
 import { document } from '@/types/document'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { FC, useMemo } from 'react'
 import dynamic from 'next/dynamic'
@@ -21,7 +20,8 @@ interface pageProps {
 
 const Page: FC<pageProps> = ({ params }) => {
 
-  const editor = useMemo(() => dynamic(() => import("@/components/Editor"), { ssr: false }), [])
+  const queryClient = useQueryClient()
+  const Editor = useMemo(() => dynamic(() => import("@/components/Editor"), { ssr: false }), [])
 
   const { data: document } = useQuery({
     queryKey: ["getDocument", "getById", params.documentId],
@@ -44,7 +44,8 @@ const Page: FC<pageProps> = ({ params }) => {
       toast.error("Error occured")
     },
     onSuccess: () => {
-      // queryClient.invalidateQueries(["document"])
+      queryClient.invalidateQueries(["document", document?.parentDocumentId])
+      queryClient.invalidateQueries(["getDocument", "getById", params.documentId])
     }
   })
 

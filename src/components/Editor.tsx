@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes'
 import { FC } from 'react'
-import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
+import { PartialBlock } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import { useEdgeStore } from '@/lib/edgestore';
 import "@blocknote/core/style.css";
