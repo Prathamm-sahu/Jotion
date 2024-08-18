@@ -47,7 +47,7 @@ const UserItem = ({}) => {
 
       {/* Dropdown menu content */}
       <DropdownMenuContent
-        className="w-80"
+        className="w-80 z-[99999]"
         align="start"
         alignOffset={11}
         forceMount
