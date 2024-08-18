@@ -6,8 +6,6 @@ import {
   MenuIcon,
   Plus,
   PlusCircle,
-  Search,
-  Settings,
   Trash,
 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -15,7 +13,7 @@ import { ElementRef, FC, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
 import axios, { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Item from "./Item";
 import { CreateDocumentPayload } from "@/lib/validators/document";
 import { toast } from "sonner";
@@ -26,8 +24,8 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import TrashBox from "./TrashBox";
-import { useSearch } from "@/hooks/use-search";
 import Navbar from "./Navbar";
+import Search from "./Search";
 
 export type document = {
   id: string;
@@ -44,7 +42,7 @@ export type document = {
 interface NavigationProps {}
 
 const Navigation: FC<NavigationProps> = ({}) => {
-  const search = useSearch();
+
   const pathname = usePathname();
   const params = useParams();
   const isMobile: boolean = useMediaQuery("(max-width: 768px)");
@@ -180,12 +178,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
         {/*  */}
         <div>
           <UserItem />
-          <Item
-            label="Search"
-            icon={Search}
-            isSearch
-            onClick={() => search.onOpen()}
-          />
+          <Search />
           {/* <Item label="Settings" icon={Settings} /> */}
           <Item label="New Page" icon={PlusCircle} onClick={() => onCreate()} />
         </div>
