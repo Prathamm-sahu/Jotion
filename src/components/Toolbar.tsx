@@ -39,7 +39,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
       toast.error("Error occured")
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["document"])
+      queryClient.invalidateQueries(["document", initialData.parentDocumentId])
       queryClient.invalidateQueries(["getDocument", "getById", initialData.id])
     }
   })
@@ -57,7 +57,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
       toast.error("Error occured")
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["document"])
+      queryClient.invalidateQueries(["document", initialData.parentDocumentId])
       queryClient.invalidateQueries(["getDocument", "getById", initialData.id])
     }
   })

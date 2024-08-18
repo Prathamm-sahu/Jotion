@@ -75,7 +75,7 @@ const SearchCommand = () => {
         {/* If no record found */}
         <CommandEmpty>No result found.</CommandEmpty>
         <CommandGroup>
-          {searchDocuments !== undefined && searchDocuments?.map((doc: any) => (
+          {searchDocuments !== undefined && searchDocuments?.map((doc: document) => (
             // File Icon
             <CommandItem
               key={doc.id}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MenuIcon } from "lucide-react";
 import { useParams, usePathname } from "next/navigation";
@@ -10,7 +10,6 @@ import Menu, { MenuSkeleton } from "./Menu";
 import Banner from "./Banner";
 import Publish from "./Publish";
 import { document } from "@/types/document";
-import { useRouter } from "next/navigation";
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -19,7 +18,7 @@ interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ isCollapsed, onResetWidth }) => {
   const params = useParams();
-  const router = useRouter()
+
   const { data: document } = useQuery({
     queryKey: ["getDocument", "getById", params.documentId],
     queryFn: async () => {
@@ -28,8 +27,9 @@ const Navbar: FC<NavbarProps> = ({ isCollapsed, onResetWidth }) => {
       );
       return rawData as document;
     },
-    cacheTime: 0
+    cacheTime: 0,
   });
+
   if (document === undefined) {
     return (
       <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between">
@@ -38,10 +38,8 @@ const Navbar: FC<NavbarProps> = ({ isCollapsed, onResetWidth }) => {
           <MenuSkeleton />
         </div>
       </nav>
-    )
+    );
   }
-  
-
 
   return (
     <>

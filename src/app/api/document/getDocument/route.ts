@@ -12,6 +12,7 @@ export async function GET(req: Request) {
     const documents = await db.document.findMany({
       where: {
         userId: session.user.id,
+        parentDocumentId: null,
         isArchived: false
       },
       orderBy: {
