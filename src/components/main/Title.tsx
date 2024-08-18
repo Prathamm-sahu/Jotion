@@ -28,7 +28,7 @@ const Title: FC<TitleProps> = ({ initialData }) => {
       return data as string
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["document"])
+      queryClient.invalidateQueries(["document", initialData.parentDocumentId])
       queryClient.invalidateQueries(["getDocument", "getById", initialData.id])
     }
   })
