@@ -8,7 +8,6 @@ generator client {
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 model Account {
@@ -50,31 +49,25 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Documents     Document[]
-}
-
-model ParentDocument {
-  id        String     @id @default(cuid())
-  documents Document[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  documents     Document[]
 }
 
 model Document {
-  id               String          @id @default(cuid())
+  id               String     @id @default(cuid())
   title            String
   userId           String
-  user             User            @relation(fields: [userId], references: [id])
+  user             User       @relation(fields: [userId], references: [id])
   parentDocumentId String?
-  parentDocument   ParentDocument? @relation(fields: [parentDocumentId], references: [id])
+  parentDocument   Document?  @relation("ParentDocument", fields: [parentDocumentId], references: [id])
+  documents        Document[] @relation("ParentDocument")
   isArchived       Boolean
-  content          String?         @db.VarChar(4000)
+  content          String?    @db.VarChar(4000)
   coverImage       String?
   icon             String?
   isPublished      Boolean
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
 
+  @@index([parentDocumentId])
   @@index([userId])
-  @@index([userId, parentDocumentId])
 }
