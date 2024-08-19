@@ -8,7 +8,7 @@ import { FC, useEffect } from "react";
 import Title, { TitleSkeleton } from "./Title";
 import Menu, { MenuSkeleton } from "./Menu";
 import Banner from "./Banner";
-import Publish from "./Publish";
+import { Publish } from "./Publish";
 import { document } from "@/types/document";
 
 interface NavbarProps {

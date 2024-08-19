@@ -96,6 +96,12 @@ eg:-
       },
     }
 
+16. This way of writing toast ->
+    toast.promise(promise, {
+      loading: "Publishing...",
+      success: "Note published",
+      error: "Error to publish note.",
+    });
 
 TODO:-
 1. add userAccountNav components
