@@ -68,7 +68,7 @@ const Page: FC<pageProps> = ({ params }) => {
   return (
     <div>
       <Cover url={document.coverImage || ""} />
-      <div>
+      <div className='px-20'>
         <Toolbar initialData={document} />
         <Editor
           updateContent={updateContent}
