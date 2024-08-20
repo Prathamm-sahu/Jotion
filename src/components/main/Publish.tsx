@@ -52,9 +52,8 @@ export function Publish({ initialData }: PublishProps) {
   const onPublish = async () => {
     try {
       setIsSubmitting(true);
-      toast.loading("Publishing..")
       updateContent(true);
-      toast.success("Note published")
+      toast.success("Note published!")
     } catch (error) {
       toast.error("Error to publish note.")
     } finally {
@@ -65,9 +64,8 @@ export function Publish({ initialData }: PublishProps) {
   const onUnPublish = () => {
     try {
       setIsSubmitting(true);
-      toast.loading("Publishing..")
       updateContent(false);
-      toast.success("Note published")
+      toast.success("Note Unpublished!")
     } catch (error) {
       toast.error("Error to publish note.")
     } finally {
