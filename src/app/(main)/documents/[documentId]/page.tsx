@@ -1,53 +1,60 @@
-"use client"
+"use client";
 
-import Toolbar from '@/components/Toolbar'
-import { Cover, CoverSkeleton } from '@/components/cover'
-import { Skeleton } from '@/components/ui/skeleton'
-import { UpdateDocumentPayload } from '@/lib/validators/document'
-import { document } from '@/types/document'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
-import { FC, useMemo } from 'react'
-import dynamic from 'next/dynamic'
-import { toast } from 'sonner'
-
+import Toolbar from "@/components/Toolbar";
+import { Cover, CoverSkeleton } from "@/components/cover";
+import { Skeleton } from "@/components/ui/skeleton";
+import { UpdateDocumentPayload } from "@/lib/validators/document";
+import { document } from "@/types/document";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { FC, useMemo } from "react";
+import dynamic from "next/dynamic";
+import { toast } from "sonner";
 
 interface pageProps {
   params: {
-    documentId: string
-  }
+    documentId: string;
+  };
 }
 
 const Page: FC<pageProps> = ({ params }) => {
-
-  const queryClient = useQueryClient()
-  const Editor = useMemo(() => dynamic(() => import("@/components/Editor"), { ssr: false }), [])
+  const queryClient = useQueryClient();
+  const Editor = useMemo(
+    () => dynamic(() => import("@/components/Editor"), { ssr: false }),
+    []
+  );
 
   const { data: document } = useQuery({
     queryKey: ["getDocument", "getById", params.documentId],
     queryFn: async () => {
-      const { data } = await axios.get(`/api/document/getDocument/getById/${params.documentId}`)
-      return data as document
-    }
-  })
+      const { data } = await axios.get(
+        `/api/document/getDocument/getById/${params.documentId}`
+      );
+      return data as document;
+    },
+  });
 
   const { mutate: updateContent } = useMutation({
     mutationFn: async (content: string) => {
       const payload: UpdateDocumentPayload = {
         id: params.documentId,
         content,
-      }
-      const { data } = await axios.patch('/api/document/update', payload)
-      return data as document
+      };
+      const { data } = await axios.patch("/api/document/update", payload);
+      return data as document;
     },
     onError: () => {
-      toast.error("Error occured")
+      toast.error("Error occured");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["document", document?.parentDocumentId])
-      queryClient.invalidateQueries(["getDocument", "getById", params.documentId])
-    }
-  })
+      queryClient.invalidateQueries(["document", document?.parentDocumentId]);
+      queryClient.invalidateQueries([
+        "getDocument",
+        "getById",
+        params.documentId,
+      ]);
+    },
+  });
 
   if (document === undefined) {
     return (
@@ -68,7 +75,7 @@ const Page: FC<pageProps> = ({ params }) => {
   return (
     <div>
       <Cover url={document.coverImage || ""} />
-      <div className='px-20'>
+      <div className="px-20">
         <Toolbar initialData={document} />
         <Editor
           updateContent={updateContent}
@@ -76,7 +83,7 @@ const Page: FC<pageProps> = ({ params }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
