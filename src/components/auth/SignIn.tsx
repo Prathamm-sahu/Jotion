@@ -12,7 +12,16 @@ const SignIn = () => {
           alt="logo"
           width={50}
           height={50}
-          className="mx-auto"
+          className="mx-auto dark:hidden"
+        />
+
+        {/* For Dark Mode */}
+        <Image
+          src="/logo-dark.svg"
+          alt="logo"
+          width={50}
+          height={50}
+          className="mx-auto dark:block"
         />
 
         <h1 className="text-2xl font-semibold tracking-tight">Welcome Back</h1>
@@ -24,7 +33,7 @@ const SignIn = () => {
         <UserAuthForm />
         
         {/* Navigation to sign-up page */}
-        <p className="px-8 text-center text-sm text-zinc-700">
+        <p className="px-8 text-center text-sm text-zinc-700 dark:text-slate-300">
           New to Jotion?{" "}
           <Link href="/sign-up" className="hover:text-zinc-800 text-sm underline underline-offset-4">
             Sign Up
