@@ -103,6 +103,11 @@ eg:-
       error: "Error to publish note.",
     });
 
+17. What are event listner.
+
+18. What is controlled and uncontrolled input 
+eg: - <input value={name}/>
+
 TODO:-
 1. add userAccountNav components
 
